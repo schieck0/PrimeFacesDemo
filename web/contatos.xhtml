@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>DevMedia - Contatos</title>
+    </h:head>
+    <h:body>
+        <h1>Cadastro de Contatos</h1>
+        <h:form>
+            <h3>Nome</h3>
+            <!--Campo que receberá o nome do contato. Ao sair do campo o valor é salvo no atributo contato(nome) da classe ContatoBean-->
+            <p:inputText id="nome" value="#{contatoBean.contato.nome}"/>
+            <h3>E-Mail</h3>
+            <!--Campo que receberá o e-mail do contato. Ao sair do campo o valor é salvo no atributo contato(email) da classe ContatoBean-->
+            <p:inputText id="mail" value="#{contatoBean.contato.email}"/>
+            <br /><br />
+            <!--Botão Salvar, ao ser acionado ele executa o método que está definido na propriedade actionListener 
+            e depois atualiza os componentes listado na propriedade update-->
+            <p:commandButton value="Salvar" id="salvar" actionListener="#{contatoBean.inserir()}" update="nome, mail, tabela"/>
+            <br /><br />
+
+            <!--Tabela para exibir os dados.
+            Na propriedade value coloca-se o método que retorna a lista de dados a ser exibida.
+            A propriedade var serve para dar um nome ao objeto de iteraração da lista. Este nome é usado nas colunas para buscar os valores dos registros-->
+            <p:dataTable var="contato" value="#{contatoBean.getContatos()}" id="tabela">
+                <!--Coluna Nome-->
+                <p:column headerText="Nome">
+                <!--aqui define-se que será exibido apenas texto nesta célula, com o componente outputText.
+                A propriedade value define o valor a ser exibido, neste caso buscando o nome do contato, lembrando que o contato descrito aqui é o mesmo da propriedade var acima.-->
+                    <h:outputText value="#{contato.nome}"></h:outputText>
+                </p:column>
+
+                <!--Coluna E-Mail-->
+                <p:column headerText="E-Mail">
+                    <h:outputText value="#{contato.email}"></h:outputText>
+                </p:column>
+
+                <p:column style="width:100px;text-align: center">
+                <!--Nesta coluna será exibido um botão para excluir o registro.
+                O botão possui uma ação definida pela propriedade actionListener e logo após atualiza os componentes listados na propriedade update-->
+                    <p:commandButton value="Excluir" 
+                                     actionListener="#{contatoBean.deletar(contato)}"
+                                     update="tabela"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
